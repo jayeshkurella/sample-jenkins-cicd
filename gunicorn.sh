@@ -9,19 +9,24 @@ python3 manage.py migrate
 
 echo "Migration Done"
 
+
 cd /var/lib/jenkins/workspace/jenkins-cicd
 
-# Create Gunicorn service file for init
-sudo cp -rf gunicorn.init /etc/init.d/gunicorn
-sudo chmod +x /etc/init.d/gunicorn
+
+sudo cp -rf gunicorn.socket /etc/systemd/system/
+sudo cp -rf gunicorn.service /etc/systemd/system/
+
 
 echo "$USER"
 echo "$PWD"
 
-# Start Gunicorn service using init system
-sudo service gunicorn start
+
+sudo service daemon-reload
+sudo service start gunicorn
+sudo service enable gunicorn
 
 echo "Gunicorn has been started"
 
-sudo service gunicorn status
-sudo service gunicorn restart
+
+sudo service status gunicorn
+sudo service restart gunicorn
