@@ -3,6 +3,19 @@
 # Copy Nginx config to sites-available
 sudo cp -rf jenkinscicd.conf /etc/nginx/sites-available/jenkinscicd
 
+# Create Jenkins workspace directory if it doesn't exist
+if [ ! -d /var/lib/jenkins/workspace/jenkins-cicd ]; then
+    sudo mkdir -p /var/lib/jenkins/workspace/jenkins-cicd/logs
+    echo "Created directory /var/lib/jenkins/workspace/jenkins-cicd/logs"
+fi
+
+# Create the error log file if it doesn't exist
+if [ ! -f /var/lib/jenkins/workspace/jenkins-cicd/logs/error.log ]; then
+    sudo touch /var/lib/jenkins/workspace/jenkins-cicd/logs/error.log
+    sudo chmod 644 /var/lib/jenkins/workspace/jenkins-cicd/logs/error.log
+    echo "Created log file /var/lib/jenkins/workspace/jenkins-cicd/logs/error.log"
+fi
+
 # Set proper permissions for Jenkins workspace
 sudo chmod 710 /var/lib/jenkins/workspace/jenkins-cicd
 
